@@ -1,0 +1,1090 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pokala Surya Akash | International Athlete </title>
+    <!-- Tailwind CSS for a clean, modern, and elegant design -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Define Colors and Fonts */
+        :root {
+            --color-primary: #1E40AF; /* Technical Blue (Accent) */
+            --color-secondary: #10B981; /* Tennis Green */
+            --color-accent: #0b97f5; /* Gold/Orange (Highlight) */
+            --color-accent: #F59E0B; /* Gold/Orange (Highlight) */
+            --color-dark: #1F2937; /* Dark Gray */
+            --color-light: #F9FAFB; /* Off-White/Light Background */
+        }
+
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
+        /* NEW: Sporty & Elegant Font Combination with a distinct quote font */
+        @import url('https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Merriweather:ital,wght@1,400&family=Montserrat:wght@400;600;700;800&display=swap');
+        
+        body {
+            font-family: 'Lato', sans-serif; /* Lato for readable body text */
+            background-color: white;
+            color: var(--color-dark);
+            scroll-behavior: smooth;
+        }
+
+        /* NEW: Apply Montserrat to all headings for a strong, clean look */
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        /* NEW: Special class for the hero quote */
+        .quote-text {
+            font-family: 'Merriweather', serif;
+        }
+
+
+        /* Hero Section - UPDATED STYLES */
+        .hero-section {
+            /* NEW: Remove background properties for parallax effect */
+            /* background-attachment: fixed; */
+            position: relative;
+            /* Ensures it always takes up the full screen height */
+            height: 100vh; 
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        /* NEW: Parallax Background Element */
+        #hero-bg {
+            background-image: url("images/background image.jpg");
+        }
+
+        .hero-overlay {
+            /* NEW: Semi-transparent overlay for better text readability */
+            /* background: rgba(0, 0, 0, 0.5);  */
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 2rem;
+            opacity: 0;
+            transition: opacity 1s ease-out 0.2s;
+        }
+        .hero-overlay.loaded {
+            opacity: 1;
+        }
+        
+        /* Navigation */
+        .nav-link {
+            transition: color 0.3s, border-bottom 0.3s;
+        }
+        .nav-link:hover {
+            color: var(--color-accent);
+            border-bottom: 2px solid var(--color-accent);
+        }
+        
+        /* General Card & Hover Effects (Enhanced transition) */
+        .card {
+            transition: transform 0.4s cubic-bezier(0.25, 0.8, 0.25, 1), box-shadow 0.4s ease-in-out;
+            border-radius: 0.75rem;
+        }
+        .card:hover {
+            transform: translateY(-8px); /* Deeper lift on hover */
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+        }
+        
+        /* Gallery Image Hover Effect (Enhanced transition) */
+        .gallery-image {
+            transition: transform 0.4s ease-in-out, filter 0.3s;
+            /* CRITICAL FIX: Ensures the image container is always a square regardless of image source */
+            height: 0;
+            padding-top: 100%; 
+            position: relative;
+        }
+        .gallery-image img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 0.5rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .gallery-image:hover img {
+            transform: scale(1.05); /* Slightly larger zoom */
+            filter: brightness(1.1);
+        }
+        /* FIX: To ensure the individual gallery cell is clickable and responsive */
+        .gallery-cell {
+            transition: transform 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+            overflow: hidden; /* Important for the hover effect */
+        }
+
+        /* FIX: To ensure the individual gallery cell is clickable and responsive */
+        .image-card {
+            cursor: pointer;
+        }
+
+        /* NEW: Ensure video hover effect is consistent */
+        .gallery-image:hover video {
+            transform: scale(1.05);
+        }
+
+
+        /* --- New: Scroll Animation Classes --- */
+        .animate-on-scroll {
+            opacity: 0;
+            transform: translateY(40px); /* Increased distance for a more noticeable effect */
+            transition: opacity 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94), transform 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+        .animate-on-scroll.in-view {
+            opacity: 1;
+            transform: translateY(0) !important; /* Use important to override inline styles if needed */
+        }
+        /* --- End New Scroll Animation Classes --- */
+
+
+        /* Custom Scroll Bar (For aesthetic appeal) */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: var(--color-light); }
+        ::-webkit-scrollbar-thumb { background: var(--color-secondary); border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: var(--color-primary); }
+
+        /* Mobile Adjustments for Timeline */
+        @media (max-width: 768px) {
+            .timeline-item {
+                border-left: 2px solid var(--color-secondary);
+                padding-left: 1.5rem;
+            }
+            .timeline-dot {
+                left: 0;
+                transform: translateX(-50%);
+            }
+            /* FIX: Disable fixed background on mobile to prevent zoom/disappearing issues on iOS */
+            .timeline-item, #hero-bg {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+        }
+
+        /* --- New: Modal Styles --- */
+        #achievement-modal {
+            transition: opacity 0.3s ease-in-out;
+        }
+        #modal-content {
+            transition: transform 0.3s ease-out;
+            transform: translateY(-20px) scale(0.95);
+        }
+        #achievement-modal.flex #modal-content {
+            transform: translateY(0) scale(1);
+        }
+        /* --- End New Modal Styles --- */
+
+        /* --- New: Greeting Modal Styles --- */
+        #greeting-modal-content {
+            background-image: linear-gradient(145deg, #ffffff 0%, #f7f9fb 100%);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.4);
+            opacity: 0;
+            transform: scale(0.9);
+            /* NEW: Spring-like animation */
+            transition: opacity 0.5s cubic-bezier(0.34, 1.56, 0.64, 1), transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        #greeting-modal-content.loaded {
+            opacity: 1;
+            transform: scale(1);
+        }
+        /* NEW: Staggered animation for content inside the modal */
+        #greeting-modal-content .animate-in {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.5s ease-out 0.3s, transform 0.5s ease-out 0.3s;
+        }
+        #greeting-modal-content.loaded .animate-in {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        /* NEW: Add delays for each element */
+        #greeting-modal-content.loaded #quote-of-the-day { transition-delay: 0.4s; }
+        #greeting-modal-content.loaded #signature { transition-delay: 0.6s; }
+
+        /* NEW: Animated close button */
+        #greeting-modal-close {
+            transition: transform 0.3s ease-in-out, background-color 0.2s;
+        }
+        #greeting-modal-close:hover { transform: rotate(90deg); background-color: #f3f4f6; }
+        /* --- End New Modal Styles --- */
+
+        /* --- NEW: Floating WhatsApp Button Styles --- */
+        #whatsapp-fab {
+            transition: opacity 0.5s ease-out 1s, transform 0.5s ease-out 1s;
+        }
+        #whatsapp-fab.fab-loaded {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        #whatsapp-button {
+            transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.3s;
+        }
+        #whatsapp-button:hover {
+            transform: scale(1.1);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+        /* NEW: Persistent tooltip styles */
+        #whatsapp-tooltip {
+            transition: opacity 0.5s ease-out 1.5s, transform 0.5s ease-out 1.5s;
+            transform: scale(0.95);
+        }
+
+        /* --- NEW: Social Icon Hover Animation --- */
+        #contact .social-icon {
+            transition: transform 0.3s ease-in-out, filter 0.3s ease-in-out;
+        }
+        #contact .social-icon:hover {
+            transform: scale(1.2);
+            filter: brightness(1.1);
+        }
+
+        /* --- NEW: Image Lightbox Styles --- */
+        #image-lightbox button {
+            transition: background-color 0.2s;
+        }
+        #image-lightbox button:hover {
+            background-color: rgba(0, 0, 0, 0.6);
+        }
+        #lightbox-image {
+            transition: transform 0.3s ease-out, opacity 0.3s ease-out;
+            transform: scale(0.95);
+            opacity: 0;
+        }
+        #image-lightbox.visible #lightbox-image {
+            transform: scale(1);
+            opacity: 1;
+        }
+    </style>
+</head>
+<body class="bg-white">
+
+    <!-- Navigation Bar -->
+    <nav id="navbar" class="fixed top-0 left-0 w-full z-50 p-4 bg-white bg-opacity-95 backdrop-blur-md shadow-lg transition-all duration-300">
+        <div class="container mx-auto flex justify-between items-center">
+            <a href="#home" class="text-xl font-bold tracking-wider text-var(--color-dark)">
+                <span class="text-[var(--color-accent)]">P</span>okala <span class="text-[var(--color-secondary)]">S</span>urya <span class="text-[var(--color-primary)]">A</span>kash
+            </a>
+            
+            <!-- Desktop Menu -->
+            <div class="hidden md:flex space-x-8">
+                <a href="#about" class="nav-link text-gray-700 hover:text-[var(--color-primary)] whitespace-nowrap">About</a>
+                <a href="#athletic" class="nav-link text-gray-700 hover:text-[var(--color-secondary)] whitespace-nowrap">Athletic</a>
+                <a href="#gallery" class="nav-link text-gray-700 hover:text-[var(--color-accent)] whitespace-nowrap">Gallery</a>
+                <a href="#technical" class="nav-link text-gray-700 hover:text-[var(--color-primary)] whitespace-nowrap">Technical</a>
+                <a href="#education" class="nav-link text-gray-700 hover:text-[var(--color-secondary)] whitespace-nowrap">Education</a>
+                <a href="#contact" class="nav-link text-gray-700 hover:text-[var(--color-primary)] whitespace-nowrap">Contact</a>
+            </div>
+
+            <!-- Mobile Menu Button -->
+            <button id="mobile-menu-button" class="md:hidden text-gray-700 focus:outline-none">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+            </button>
+        </div>
+
+        <!-- Mobile Menu (Hidden by default) -->
+        <div id="mobile-menu" class="hidden md:hidden absolute top-full left-0 w-full bg-white bg-opacity-95 shadow-lg">
+            <a href="#about" class="block text-center py-3 px-4 text-gray-700 hover:bg-gray-100">About</a>
+            <a href="#athletic" class="block text-center py-3 px-4 text-gray-700 hover:bg-gray-100">Athletic</a>
+            <a href="#gallery" class="block text-center py-3 px-4 text-gray-700 hover:bg-gray-100">Gallery</a>
+            <a href="#technical" class="block text-center py-3 px-4 text-gray-700 hover:bg-gray-100">Technical</a>
+            <a href="#education" class="block text-center py-3 px-4 text-gray-700 hover:bg-gray-100">Education</a>
+            <a href="#contact" class="block text-center py-3 px-4 text-gray-700 hover:bg-gray-100">Contact</a>
+        </div>
+    </nav>
+
+    <!-- Hero Section - NEW CLEAN DESIGN -->
+    <header id="home" class="hero-section">
+        <!-- NEW: Parallax Background -->
+        <div id="hero-bg" class="absolute inset-0 w-full h-full bg-cover bg-center z-[-1]"></div>
+        <div class="hero-overlay max-w-4xl mx-auto px-4 pt-20">
+            
+            <!-- Professional Photo Placeholder -->
+            <img 
+                src="images/profile pic.jpg" 
+                alt="Pokala Surya Akash Professional Headshot"
+                class="w-64 h-64 md:w-72 md:h-72 rounded-full border-4 border-[var(--color-accent)] shadow-2xl mb-6 object-contain bg-gray-800"
+            >
+
+            <h1 class="text-3xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight mb-2 text-white drop-shadow-lg">
+                POKALA SURYA AKASH
+            </h1>
+            <p class="text-base sm:text-lg md:text-xl font-light tracking-wide drop-shadow-md text-white">
+                International Tennis & Pickleball Athlete <span class="font-semibold text-[var(--color-secondary)]"></span>
+            </p>
+
+            <h2 class="quote-text text-lg md:text-2xl italic font-normal mt-6 text-gray-100 max-w-lg drop-shadow-md">
+                "Winning requires discipline, whether you are solving complex equations or competing for gold."
+            </h2>
+
+            <div class="mt-10 space-x-4 flex justify-center">
+                <a href="#athletic" class="px-6 py-3 bg-[var(--color-secondary)] text-white font-semibold rounded-full shadow-lg transition-all duration-300 hover:bg-green-700 hover:shadow-xl">
+                    Athletic Journey
+                </a>
+                <a href="#technical" class="px-6 py-3 bg-[var(--color-primary)] text-white font-semibold rounded-full shadow-lg transition-all duration-300 hover:bg-blue-800 hover:shadow-xl">
+                    Technical Profile
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <main class="container mx-auto px-4 md:px-8 py-16">
+
+        <!-- About Section (Dual Expertise) -->
+        <section id="about" class="py-16 animate-on-scroll">
+            <div class="text-center mb-12">
+                <h2 class="text-4xl font-bold mb-4">The Dual Pursuit of Excellence</h2>
+                <p class="text-gray-600 max-w-3xl mx-auto">
+                    Pokala Surya Akash is a young professional seamlessly merging the **discipline of an international athlete** with the **innovation of an engineer**. This dedication drives success both on the court and in the lab.
+                </p>
+            </div>
+            
+            <!-- Responsive grid: 1 column on mobile, 3 columns on desktop -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 text-center stagger-children">
+                <div class="card p-6 bg-[var(--color-light)] shadow-md animate-on-scroll">
+                    <svg class="w-12 h-12 mx-auto mb-4 text-[var(--color-secondary)]" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 2a10 10 0 100 20 10 10 0 000-20zM12 11h.01M16 16l-4-4-4 4"></path></svg>
+                    <h3 class="text-2xl font-semibold mb-2 text-[var(--color-secondary)]">Discipline & Drive</h3>
+                    <p class="text-gray-700">The unwavering focus and high-pressure performance learned from competing internationally.</p>
+                </div>
+                <div class="card p-6 bg-[var(--color-light)] shadow-md animate-on-scroll">
+                    <svg class="w-12 h-12 mx-auto mb-4 text-[var(--color-primary)]" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2zM9 10h6M9 14h6"></path></svg>
+                    <h3 class="text-2xl font-semibold mb-2 text-[var(--color-primary)]">Logic & Innovation</h3>
+                    <p class="text-gray-700">Applying analytical problem-solving skills to complex Electronics and Communication projects.</p>
+                </div>
+                <div class="card p-6 bg-[var(--color-light)] shadow-md animate-on-scroll">
+                    <svg class="w-12 h-12 mx-auto mb-4 text-[var(--color-accent)]" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path></svg>
+                    <h3 class="text-2xl font-semibold mb-2 text-[var(--color-accent)]">Personal Details</h3>
+                    <ul class="text-gray-700 text-sm space-y-1 mt-3">
+                        <li>DOB: June 20, 2003</li>
+                        <li>Location: Wichita, Kansas</li>
+                        <li>Email: <a href="mailto:pokalasuryaakash2003@gmail.com" class="hover:text-[var(--color-accent)]">suryaakashpokala64@gmail.com</a></li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Athletic Achievements Section -->
+        <section 
+            id="athletic" 
+            class="py-16 rounded-xl shadow-inner animate-on-scroll" 
+            style="background-image: linear-gradient(rgba(249, 250, 251, 0.88), rgba(249, 250, 251, 0.88)), url('images/achivements background image.jpg'); background-size: cover; background-position: center; background-attachment: scroll;"
+        >
+            <div class="text-center mb-12">
+                <h2 class="text-4xl font-bold mb-4 text-[var(--color-secondary)]">International & National Tennis & Pickleball Highlights</h2>
+                <p class="text-gray-700 max-w-3xl mx-auto">
+                    Years of rigorous training and dedication culminating in significant victories on the global and domestic stage.
+                </p>
+            </div>
+            
+            <!-- Responsive grid: 1 column on mobile, 2 columns on tablet/small desktop, 4 on large desktop -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 max-w-6xl mx-auto stagger-children">
+                <!-- NEW: Achievement Card (Ambassador) - Highlighted -->
+                <div class="card achievement-card p-6 bg-white shadow-2xl border-t-4 border-[var(--color-primary)] text-center cursor-pointer animate-on-scroll"
+                     data-image="images\WhatsApp Image 2025-09-23 at 8.10.19 AM (6).jpeg" 
+                     data-title="Ambassador at Wichita State University"
+                     data-description="Proudly representing TapNPaddles, fostering community engagement and promoting the sport at Wichita State University."
+                     data-date="2025 - Present">
+                    <span class="text-5xl mb-3 block">🌟</span>
+                    <h3 class="text-xl font-bold mb-2 text-[var(--color-primary)]">Ambassador</h3>
+                    <p class="text-gray-600 text-sm">Wichita State University for TapNPaddles</p>
+                    <p class="text-[var(--color-primary)] font-semibold mt-1">2025 - Present</p>
+                </div>
+
+                <!-- Achievement Card 1 (International Silver) -->
+                <div class="card achievement-card p-6 bg-white shadow-xl border-t-4 border-[var(--color-accent)] text-center cursor-pointer animate-on-scroll"
+                     data-image="images\WhatsApp Image 2025-09-23 at 8.10.18 AM (3).jpeg" 
+                     data-title="International Silver Medalist"
+                     data-description="Represented India and secured the Silver Medal at the ISTF World Tour held in Thailand."
+                     data-date="July 28, 2023">
+                    <span class="text-5xl mb-3 block">🥈</span>
+                    <h3 class="text-xl font-bold mb-2">International Silver Medalist</h3>
+                    <p class="text-gray-600 text-sm">ISTF World Tour, Thailand</p>
+                    <p class="text-[var(--color-secondary)] font-semibold mt-1">July 28, 2023</p>
+                </div>
+
+                <!-- Achievement Card 2 (National Cup) -->
+                <div class="card achievement-card p-6 bg-white shadow-xl border-t-4 border-[var(--color-accent)] text-center cursor-pointer animate-on-scroll"
+                     data-image="images/WhatsApp Image 2025-09-23 at 8.10.17 AM.jpeg" 
+                     data-title="National Cup Winner"
+                     data-description="Achieved top honors in the National Soft Tennis Tournament, with a career total of about 50 medals and achievements in the sport."
+                     data-date="Multiple Years">
+                    <span class="text-5xl mb-3 block">🏆</span>
+                    <h3 class="text-xl font-bold mb-2">National Cup Winner</h3>
+                    <p class="text-gray-600 text-sm">National Soft Tennis Tournament</p>
+                    <p class="text-gray-600 text-sm">About 50 Medal and Achievements</p>
+                </div>
+
+                <!-- Achievement Card 3 (AITA Champion) -->
+                <div class="card achievement-card p-6 bg-white shadow-xl border-t-4 border-[var(--color-accent)] text-center cursor-pointer animate-on-scroll"
+                     data-image="images\WhatsApp Image 2025-09-23 at 8.10.21 AM (4).jpeg" 
+                     data-title="AITA Singles Champion"
+                     data-description="Clinched the championship title at the All India Tennis Association (AITA) Tournament, accumulating over 25 medals and titles in AITA events."
+                     data-date="Multiple Years">
+                    <span class="text-5xl mb-3 block">🥇</span>
+                    <h3 class="text-xl font-bold mb-2">AITA Singles Champion</h3>
+                    <p class="text-gray-600 text-sm">All India Tennis Association Tournament</p>
+                    <p class="text-gray-600 text-sm">Won more than 25 Medals & titles</p>
+                </div>
+            </div>
+            <!-- NEW: Centered row for the 5th card -->
+            <div class="mt-8 flex justify-center">
+                 <div class="card achievement-card p-6 bg-white shadow-xl border-t-4 border-[var(--color-accent)] text-center cursor-pointer w-full sm:w-1/2 lg:w-1/4 animate-on-scroll"
+                      data-image="images\WhatsApp Image 2025-09-23 at 8.10.18 AM (5).jpeg" 
+                      data-title="South India Champion"
+                      data-description="Dominated the regional circuit by winning the South India Championship, part of a collection of over 107 medals from various tournaments."
+                      data-date="Multiple Years">
+                     <span class="text-5xl mb-3 block">🏅</span>
+                     <h3 class="text-xl font-bold mb-2">South India Championship</h3>
+                     <p class="text-gray-600 text-sm">Regional Tournament Winner</p>
+                     <p class="text-gray-600 text-sm">Won more that 107 Medals & more</p>
+                 </div>
+            </div>
+        </section>
+        
+        <!-- NEW Gallery & Certifications Section -->
+        <section id="gallery" class="py-16 animate-on-scroll">
+            <div class="text-center mb-12">
+                <h2 class="text-4xl font-bold mb-4 text-[var(--color-accent)]">Gallery of Achievements</h2>
+                <p class="text-gray-600 max-w-3xl mx-auto mb-6">
+                    A visual record of victories, press coverage, and formal certifications.
+                </p>
+                <a href="https://drive.google.com/drive/folders/15oHBx8tHql6mTx8BRGMxlBYN6bM_UNva?usp=sharing" target="_blank" class="inline-block px-6 py-3 bg-[var(--color-accent)] text-white font-semibold rounded-full shadow-lg transition-all duration-300 hover:bg-yellow-700">
+                    <span class="mr-2">📁</span> View All Certifications & Achievements
+                </a>
+                <!-- <p class="text-gray-500 text-sm mt-2">
+                    *Please replace the '#' above with your public Google Drive folder link.*
+                </p> -->
+            </div>
+
+            <!-- NEW: Image Sub-section -->
+            <h3 class="text-3xl font-bold text-center text-gray-800 mb-8">Images</h3>
+            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 stagger-children mb-16">
+                <!-- Image 1 -->
+                <div class="gallery-cell image-card animate-on-scroll">
+                    <div class="gallery-image">
+                        <img src="images/WhatsApp Image 2025-09-23 at 8.10.20 AM (4).jpeg" alt="Trophy collection">
+                    </div>
+                </div>
+                <!-- Image 2 -->
+                <div class="gallery-cell image-card animate-on-scroll">
+                    <div class="gallery-image">
+                        <img src="images/WhatsApp Image 2025-09-23 at 8.10.20 AM (8).jpeg" alt="Player action shot">
+                    </div>
+                </div>
+                <!-- Image 3 -->
+                <div class="gallery-cell image-card animate-on-scroll">
+                    <div class="gallery-image">
+                        <img src="images/WhatsApp Image 2025-09-23 at 8.10.19 AM (7).jpeg" alt="Medal ceremony photo">
+                    </div>
+                </div>
+                <!-- Image 4 -->
+                <div class="gallery-cell image-card animate-on-scroll">
+                    <div class="gallery-image">
+                        <img src="images/WhatsApp Image 2025-09-23 at 8.10.20 AM (1).jpeg" alt="Holding a trophy on court">
+                    </div>
+                </div>
+                <!-- Image 5 -->
+                <div class="gallery-cell image-card animate-on-scroll">
+                    <div class="gallery-image">
+                        <img src="images/WhatsApp Image 2025-09-23 at 8.10.21 AM (2).jpeg" alt="Newspaper clipping of silver medal win">
+                    </div>
+                </div>
+            </div>
+
+            <!-- NEW: Video Sub-section -->
+            <h3 class="text-3xl font-bold text-center text-gray-800 mb-8">Video Highlights</h3>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 stagger-children">
+                <!-- Video Card 1 -->
+                <div class="gallery-cell video-card animate-on-scroll cursor-pointer">
+                    <div class="gallery-image">
+                        <video src="images/1stvideo.mp4" muted loop autoplay playsinline class="absolute top-0 left-0 w-full h-full object-cover rounded-lg"></video>
+                    </div>
+                </div>
+                <!-- Video Card 2 -->
+                <div class="gallery-cell video-card animate-on-scroll cursor-pointer">
+                    <div class="gallery-image">
+                        <video src="images/WhatsApp Video 2025-09-23 at 8.10.19 AM (1).mp4" muted loop autoplay playsinline class="absolute top-0 left-0 w-full h-full object-cover rounded-lg"></video>
+                    </div>
+                </div>
+                <!-- NEW: Video Card 3 -->
+                <div class="gallery-cell video-card animate-on-scroll cursor-pointer">
+                    <div class="gallery-image">
+                        <video src="images/2nd video.mp4" muted loop autoplay playsinline class="absolute top-0 left-0 w-full h-full object-cover rounded-lg bg-black"></video>
+                    </div>
+                </div>
+            </div>
+            
+        </section>
+
+        <!-- Technical Skills & Projects Section -->
+        <section id="technical" class="py-16 animate-on-scroll">
+            <div class="text-center mb-12">
+                <h2 class="text-4xl font-bold mb-4 text-[var(--color-primary)]">Technical Expertise & Engineering Projects</h2>
+                <p class="text-gray-600 max-w-3xl mx-auto">
+                    Applying complex problem-solving honed on the court to innovative projects in Electronics and Communication Engineering.
+                </p>
+            </div>
+            
+            <!-- Responsive grid: Skills panel takes full width on mobile/tablet, 1/3 width on desktop -->
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                <!-- Skills Panel -->
+                <div class="lg:col-span-1">
+                    <div class="card p-6 bg-[var(--color-primary)] text-white shadow-xl animate-on-scroll">
+                        <h3 class="text-3xl font-bold mb-4 border-b pb-2 border-white border-opacity-30">Skills Summary</h3>
+                        
+                        <div class="mb-6">
+                            <h4 class="text-xl font-semibold mb-2 text-[var(--color-accent)]">Programming Languages</h4>
+                            <p class="text-lg">C, C++ (OOP), Python</p>
+                        </div>
+
+                        <div class="mb-6">
+                            <h4 class="text-xl font-semibold mb-2 text-[var(--color-accent)]">Specializations</h4>
+                            <div class="flex flex-wrap gap-2">
+                                <span class="bg-blue-900 px-3 py-1 text-sm rounded-full">VLSI Design & Verification</span>
+                                <span class="bg-blue-900 px-3 py-1 text-sm rounded-full">Machine Learning</span>
+                                <span class="bg-blue-900 px-3 py-1 text-sm rounded-full">Design Patterns</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Projects List -->
+                <div class="lg:col-span-2 space-y-6 stagger-children">
+                    <h3 class="text-3xl font-bold mb-4 text-[var(--color-primary)]">Key Projects</h3>
+                    
+                    <!-- Project Card 1 -->
+                    <div class="card p-5 bg-[var(--color-light)] shadow-md border-l-4 border-[var(--color-primary)] animate-on-scroll">
+                        <h4 class="text-2xl font-semibold mb-1">Automatic Door Lock Systems</h4>
+                        <p class="text-gray-700">Designed and implemented a microcontroller-based automated door locking mechanism for enhanced security and convenience.</p>
+                    </div>
+
+                    <!-- Project Card 2 -->
+                    <div class="card p-5 bg-[var(--color-light)] shadow-md border-l-4 border-[var(--color-primary)] animate-on-scroll">
+                        <h4 class="text-2xl font-semibold mb-1">RFID Lock System</h4>
+                        <p class="text-gray-700">Developed a robust access control system using RFID technology, focusing on secure authentication protocols.</p>
+                    </div>
+
+                    <!-- Project Card 3 -->
+                    <div class="card p-5 bg-[var(--color-light)] shadow-md border-l-4 border-[var(--color-primary)] animate-on-scroll">
+                        <h4 class="text-2xl font-semibold mb-1">Smart Blind Stick</h4>
+                        <p class="text-gray-700">An accessibility project utilizing sensors and microcontrollers to assist visually impaired individuals with navigation and obstacle detection.</p>
+                    </div>
+                    
+                    <!-- Project Card 4 -->
+                    <div class="card p-5 bg-[var(--color-light)] shadow-md border-l-4 border-[var(--color-primary)] animate-on-scroll">
+                        <h4 class="text-2xl font-semibold mb-1">Automated Renewable Energy System</h4>
+                        <p class="text-gray-700">Project focused on optimizing energy capture and distribution from renewable sources using smart logic.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Education Section -->
+        <section 
+            id="education" 
+            class="py-16 rounded-xl shadow-inner animate-on-scroll"
+            style="background-image: linear-gradient(rgba(249, 250, 251, 0.88), rgba(249, 250, 251, 0.88)), url('images/WhatsApp Image 2025-09-23 at 8.10.18 AM (7).jpeg'); background-size: cover; background-position: center; background-attachment: scroll;"
+        >
+            <div class="text-center mb-12">
+                <h2 class="text-4xl font-bold mb-4 text-[var(--color-secondary)]">Academic Journey</h2>
+                <p class="text-gray-700 max-w-3xl mx-auto">
+                    Building the foundational knowledge in Electronics and Communication Engineering while maintaining athletic commitments.
+                </p>
+            </div>
+            
+            <div class="max-w-4xl mx-auto space-y-12 relative stagger-children">
+                <!-- Timeline Line -->
+                <!-- The timeline is designed to stack cleanly on mobile/tablet -->
+                <div class="hidden md:block absolute w-0.5 h-full bg-[var(--color-secondary)] left-1/2 transform -translate-x-1/2 top-0 animate-on-scroll"></div>
+
+                <!-- Item 1: MS -->
+                <div class="flex flex-col md:flex-row justify-between items-start timeline-item">
+                    <div class="md:w-5/12 card p-5 bg-white shadow-lg order-2 md:order-1 relative">
+                        <h3 class="text-2xl font-bold text-[var(--color-primary)]">MS (Master of Science)</h3>
+                        <p class="text-gray-700 font-semibold">Wichita State University (Excercise Science) </p>
+                        <p class="text-gray-500 text-sm">2026 - Present</p>
+                    </div>
+                    <div class="hidden md:block w-2 h-2 bg-[var(--color-accent)] rounded-full absolute left-1/2 top-0 transform -translate-x-1/2 -translate-y-1/2 order-2 timeline-dot"></div>
+                </div>
+
+                <!-- Item 2: B.Tech -->
+                <div class="flex flex-col md:flex-row justify-between items-start timeline-item">
+                    <div class="md:w-5/12 hidden md:block order-1"></div>
+                    <div class="md:w-5/12 card p-5 bg-white shadow-lg order-2 md:order-3 relative">
+                        <h3 class="text-2xl font-bold text-[var(--color-primary)]">B.Tech (ECE)</h3>
+                        <p class="text-gray-700 font-semibold">KL University, Vijayawada</p>
+                        <p class="text-gray-500 text-sm">2022 - 2025</p>
+                    </div>
+                    <div class="hidden md:block w-2 h-2 bg-[var(--color-accent)] rounded-full absolute left-1/2 top-0 transform -translate-x-1/2 -translate-y-1/2 order-2 timeline-dot"></div>
+                </div>
+
+                <!-- Item 3: Diploma -->
+                <div class="flex flex-col md:flex-row justify-between items-start timeline-item">
+                    <div class="md:w-5/12 card p-5 bg-white shadow-lg order-2 md:order-1 relative">
+                        <h3 class="text-2xl font-bold text-[var(--color-primary)]">Diploma in ECE</h3>
+                        <p class="text-gray-700 font-semibold">Malineni Perumallu Educational Society</p>
+                        <p class="text-gray-500 text-sm">2019 - 2022 | Achieved 70%</p>
+                    </div>
+                    <div class="hidden md:block w-2 h-2 bg-[var(--color-accent)] rounded-full absolute left-1/2 top-0 transform -translate-x-1/2 -translate-y-1/2 order-2 timeline-dot"></div>
+                </div>
+
+                <!-- Item 4: 10th -->
+                <div class="flex flex-col md:flex-row justify-between items-start timeline-item">
+                    <div class="md:w-5/12 hidden md:block order-1"></div>
+                    <div class="md:w-5/12 card p-5 bg-white shadow-lg order-2 md:order-3 relative">
+                        <h3 class="text-2xl font-bold text-[var(--color-primary)]">10th Standard</h3>
+                        <p class="text-gray-700 font-semibold">Bhashyam High School, Guntur</p>
+                        <p class="text-gray-500 text-sm">2018 - 2019 | Achieved 8.2 GPA</p>
+                    </div>
+                    <div class="hidden md:block w-2 h-2 bg-[var(--color-accent)] rounded-full absolute left-1/2 top-0 transform -translate-x-1/2 -translate-y-1/2 order-2 timeline-dot"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact Section -->
+        <section id="contact" class="py-16 animate-on-scroll">
+            <div class="text-center mb-12">
+                <h2 class="text-4xl font-bold mb-4">Connect & Collaborate</h2>
+                <p class="text-gray-600 max-w-2xl mx-auto">
+                    Whether for sponsorship, tennis events, or technical opportunities, I welcome all inquiries.
+                </p>
+            </div>
+
+            <div class="max-w-xl mx-auto bg-[var(--color-light)] p-8 rounded-xl shadow-lg mt-12">
+                <form id="contact-form" class="space-y-4">
+                    <input type="text" id="name" name="name" placeholder="Your Name" autocomplete="name" class="contact-input w-full p-3 rounded-lg border border-gray-300 focus:border-[var(--color-primary)]" required>
+                    <input type="email" id="email" name="email" placeholder="Your Email" autocomplete="email" class="contact-input w-full p-3 rounded-lg border border-gray-300 focus:border-[var(--color-primary)]" required>
+                    <textarea id="message" name="message" rows="5" placeholder="Your Message (Specify Athletic or Technical Inquiry)" class="contact-input w-full p-3 rounded-lg border border-gray-300 focus:border-[var(--color-primary)]" required></textarea>
+                    <button type="button" id="submit-contact-form" class="submit-button w-full px-6 py-3 bg-[var(--color-primary)] text-white font-semibold rounded-lg transition-shadow duration-300 hover:bg-blue-800">
+                        Send Message via Email
+                    </button>
+                </form>
+                <!-- Social Media Links -->
+                <div class="mt-8 text-center space-x-8">
+                    <a href="mailto:suryaakashpokala64@gmail.com" class="social-icon text-gray-700 hover:text-[var(--color-accent)] transition-colors duration-200 inline-block" title="Email">
+                        <svg class="w-8 h-8 inline-block" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"></path></svg>
+                    </a>
+                    <a href="https://www.linkedin.com/in/surya-akash-pokala-6a438b286?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app" target="_blank" class="social-icon text-gray-700 hover:text-[var(--color-primary)] transition-colors duration-200 inline-block" title="LinkedIn Profile">
+                        <svg class="w-8 h-8 inline-block" fill="currentColor" viewBox="0 0 24 24"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764c.966 0 1.75.79 1.75 1.764s-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
+                    </a>
+                    <a href="https://www.instagram.com/suryaakash_official?utm_source=qr&igsh=em9odzAwbXkxcnd1" target="_blank" class="social-icon text-gray-700 hover:text-pink-500 transition-colors duration-200 inline-block" title="Instagram">
+                        <svg class="w-8 h-8 inline-block" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.07 1.646.07 4.85s-.012 3.585-.07 4.85c-.148 3.225-1.664 4.771-4.919 4.919-1.266.058-1.646.07-4.85.07s-3.585-.012-4.85-.07c-3.25-.148-4.771-1.699-4.919-4.92-.058-1.265-.07-1.646-.07-4.85s.012-3.585.07-4.85c.149-3.225 1.664-4.771 4.919-4.919 1.266-.057 1.646-.07 4.85-.07zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-7.01 2.858-7.211 7.211-.058 1.28-.072 1.688-.072 4.947s.014 3.667.072 4.947c.2 4.358 2.858 7.01 7.211 7.211 1.28.058 1.688.072 4.947.072s3.667-.014 4.947-.072c4.358-.2 7.01-2.858 7.211-7.211.058-1.28.072-1.688.072-4.947s-.014-3.667-.072-4.947c-.2-4.358-2.858-7.01-7.211-7.211-1.28-.058-1.688-.072-4.947-.072zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.162 6.162 6.162 6.162-2.759 6.162-6.162-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4s1.791-4 4-4 4 1.79 4 4-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.441 1.441 1.441 1.441-.645 1.441-1.441-.645-1.44-1.441-1.44z"/></svg>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- NEW: Greeting Modal -->
+    <div id="greeting-modal" class="fixed inset-0 bg-black bg-opacity-80 z-[70] flex items-center justify-center p-4 transition-opacity duration-300">
+        <div id="greeting-modal-content" class="bg-white rounded-lg shadow-2xl max-w-lg w-full relative p-8 text-center">
+            <button id="greeting-modal-close" class="absolute -top-3 -right-3 bg-white rounded-full h-9 w-9 flex items-center justify-center text-2xl text-gray-600 hover:text-black shadow-lg">&times;</button>
+            <h3 id="greeting-text" class="animate-in text-3xl font-bold mb-4 text-[var(--color-primary)] flex items-center justify-center gap-3">
+                <!-- Greeting will be inserted by JS -->
+            </h3>
+            <p id="quote-of-the-day" class="animate-in text-lg italic text-gray-700">
+                <!-- Quote will be inserted by JS -->
+            </p>
+            <p id="signature" class="animate-in text-sm text-gray-500 mt-6">- Pokala Surya Akash</p>
+        </div>
+    </div>
+
+    <!-- NEW: Achievement Modal -->
+    <div id="achievement-modal" class="fixed inset-0 bg-black bg-opacity-75 z-[60] hidden items-center justify-center p-4">
+        <div id="modal-content" class="bg-white rounded-lg shadow-2xl max-w-md w-full relative">
+            <button id="modal-close-button" class="absolute -top-3 -right-3 bg-white rounded-full h-8 w-8 flex items-center justify-center text-2xl text-gray-600 hover:text-black shadow-lg">&times;</button>
+            <img id="modal-image" src="" alt="Achievement Image" class="w-full h-64 object-contain rounded-t-lg bg-gray-100">
+            <div class="p-6">
+                <h3 id="modal-title" class="text-2xl font-bold mb-2 text-[var(--color-primary)]"></h3>
+                <p id="modal-description" class="text-gray-700 mb-3"></p>
+                <p id="modal-date" class="text-[var(--color-secondary)] font-semibold"></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- NEW: Floating WhatsApp Channel Button -->
+    <div id="whatsapp-fab" class="fixed bottom-5 right-5 z-40 flex items-end gap-3 opacity-0 translate-y-4">
+        <!-- Tooltip/Notification Bubble -->
+        <div id="whatsapp-tooltip" class="bg-white p-2 rounded-lg shadow-xl relative opacity-0">
+            <p class="text-xs text-gray-800">Join for Tennis & Pickleball updates!</p>
+        </div>
+        <!-- Main WhatsApp Button -->
+        <a id="whatsapp-button" href="https://whatsapp.com/channel/0029Vb65iN0K5cDBdzEpSy05" target="_blank" class="bg-[#25D366] text-white w-14 h-14 rounded-full flex items-center justify-center shadow-lg">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" class="w-8 h-8" fill="currentColor">
+                <path d="M380.9 97.1C339 55.1 283.2 32 223.9 32c-122.4 0-222 99.6-222 222 0 39.1 10.2 77.3 29.6 111L0 480l117.7-30.9c32.4 17.7 68.9 27 106.1 27h.1c122.3 0 224.1-99.6 224.1-222 0-59.3-25.2-115-67.1-157zm-157 341.6c-33.8 0-67.6-9.2-97.2-26.7l-7-4.1-72.5 19.1 19.4-70.5-4.5-7.3C31.9 327.2 24 291.2 24 252.8c0-110.3 89.7-200 200-200 55.1 0 107.1 21.5 146.1 60.5 39.1 39.1 60.5 91 60.5 146.1-1 110.3-89.8 200-200.1 200zm107.7-164.5c-5.3-2.6-31.6-15.6-36.5-17.3-4.9-1.7-8.5-2.6-12.1 2.6-3.6 5.3-13.8 17.3-16.9 20.8-3.1 3.6-6.2 4.1-11.5 1.5-5.3-2.6-22.5-8.3-42.8-26.3-15.8-14-26.5-31.4-30.9-36.8-4.4-5.3-.5-8.1 2.4-10.7 2.5-2.3 5.3-6.1 8-8.1 2.7-2 3.6-4.5 5.3-7.5 1.7-3 1-5.7-.5-8.1-1.5-2.4-12.1-29.1-16.6-40-4.4-10.8-8.9-9.3-12.1-9.5-3.1-.2-6.8-.2-10.4-.2-3.6 0-9.5 1.4-14.4 6.8-5 5.4-19.1 18.6-19.1 45.2 0 26.5 19.5 52.3 22.1 55.8 2.6 3.6 38.6 58.8 94.2 82.6 13.2 5.6 24.9 9 33.6 11.6 14.3 4.1 27.4 3.5 37.8 2.1 11.3-1.5 31.6-12.9 36-25.4 4.4-12.5 4.4-23.2 3.1-25.4-1.3-2.2-4.9-3.6-10.2-6.2z"/>
+            </svg>
+        </a>
+    </div>
+
+    <!-- NEW: Video Player Modal -->
+    <div id="video-modal" class="fixed inset-0 bg-black bg-opacity-80 z-[80] hidden items-center justify-center p-4 transition-opacity duration-300">
+        <div id="video-modal-content" class="bg-black rounded-lg shadow-2xl w-full max-w-4xl relative">
+            <button id="video-modal-close" class="absolute -top-3 -right-3 bg-white rounded-full h-9 w-9 flex items-center justify-center text-2xl text-gray-600 hover:text-black shadow-lg z-10">&times;</button>
+            <!-- Aspect ratio container for the video -->
+            <div class="aspect-w-16 aspect-h-9">
+                <video id="modal-video-player" src="" controls autoplay class="w-full h-full rounded-lg"></video>
+            </div>
+        </div>
+    </div>
+
+    <!-- NEW: Image Lightbox Modal -->
+    <div id="image-lightbox" class="fixed inset-0 bg-black bg-opacity-90 z-[90] hidden items-center justify-center p-4 transition-opacity duration-300">
+        <button id="lightbox-close" class="absolute top-4 right-4 text-white text-4xl z-[92] hover:text-gray-300">&times;</button>
+        <button id="lightbox-prev" class="absolute left-4 sm:left-8 top-1/2 -translate-y-1/2 text-white text-3xl sm:text-4xl bg-black bg-opacity-30 p-2 rounded-full z-[92]">&#10094;</button>
+        <button id="lightbox-next" class="absolute right-4 sm:right-8 top-1/2 -translate-y-1/2 text-white text-3xl sm:text-4xl bg-black bg-opacity-30 p-2 rounded-full z-[92]">&#10095;</button>
+        <div class="relative w-full h-full flex items-center justify-center">
+            <img id="lightbox-image" src="" alt="Enlarged gallery image" class="max-w-[90vw] max-h-[85vh] object-contain shadow-2xl">
+            <div id="lightbox-counter" class="absolute bottom-4 text-white text-lg bg-black bg-opacity-50 px-3 py-1 rounded-full"></div>
+        </div>
+    </div>
+
+    <footer class="text-center py-8 bg-[var(--color-dark)] text-white text-sm">
+        &copy; 2025 Pokala Surya Akash. Built with discipline and code.
+    </footer>
+
+    <script>
+        // --- Start of new/modified script ---
+
+        // Function to check if an element is in the viewport
+        function isElementInViewport(el) {
+            const rect = el.getBoundingClientRect();
+            // Checking if at least part of the element is visible
+            return (
+                rect.top <= (window.innerHeight || document.documentElement.clientHeight) && 
+                rect.bottom >= 0
+            );
+        }
+
+        // Function to handle scroll animations
+        function handleScrollAnimations() {
+            // Animate single elements
+            document.querySelectorAll('.animate-on-scroll:not(.stagger-children .animate-on-scroll)').forEach(el => {
+                if (isElementInViewport(el)) {
+                    el.classList.add('in-view');
+                } else {
+                    el.classList.remove('in-view');
+                }
+            });
+
+            // Animate staggered children
+            document.querySelectorAll('.stagger-children').forEach(parent => {
+                const children = parent.querySelectorAll('.animate-on-scroll');
+                if (isElementInViewport(parent)) {
+                    children.forEach((child, index) => {
+                        // Only apply delay if it hasn't been animated yet
+                        child.style.transitionDelay = `${index * 150}ms`; // 150ms delay between items
+                        child.classList.add('in-view');
+                    });
+                } else {
+                    // Remove 'in-view' class from all children when parent is out of view
+                    children.forEach(child => child.classList.remove('in-view'));
+                }
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            // --- NEW: Greeting Modal Logic ---
+            const greetingModal = document.getElementById('greeting-modal');
+            const greetingModalContent = document.getElementById('greeting-modal-content');
+            const closeGreetingButton = document.getElementById('greeting-modal-close');
+            const greetingText = document.getElementById('greeting-text');
+            const quoteText = document.getElementById('quote-of-the-day');
+
+            // 1. Define Greetings and Quotes
+            const quotes = [
+                "The only way to do great work is to love what you do.",
+                "Success is not final, failure is not fatal: it is the courage to continue that counts.",
+                "Believe you can and you're halfway there.",
+                "The harder the battle, the sweeter the victory.",
+                "Strive for progress, not perfection.",
+                "Your only limit is your mind.",
+                "The future belongs to those who believe in the beauty of their dreams.",
+                "Don't watch the clock; do what it does. Keep going.",
+                "The secret of getting ahead is getting started.",
+                "It’s not whether you get knocked down, it’s whether you get up.",
+                "Discipline is the bridge between goals and accomplishment.",
+                "The best way to predict the future is to create it.",
+                "Push yourself, because no one else is going to do it for you.",
+                "Dream bigger. Do bigger.",
+                "Every accomplishment starts with the decision to try.",
+                "The body achieves what the mind believes.",
+                "Champions are made when no one is watching.",
+                "Hard work beats talent when talent doesn't work hard.",
+                "Your mind is your strongest muscle. Train it well.",
+                "Pain is temporary. Victory is forever.",
+                "Greatness is earned, not given.",
+                "You don’t have to be great to start, but you have to start to be great.",
+                "Train like you’ve never won. Play like you’ve never lost.",
+                "One point at a time. One match at a time. One step at a time.",
+                "Endurance is not just the ability to bear a hard thing, but to turn it into glory.",
+                "Success in sport is 90% mental and the rest is in your head.",
+                "The difference between a good athlete and a great one is consistency.",
+                "Don’t quit. Suffer now and live the rest of your life as a champion.",
+                "The will to win is nothing without the will to prepare.",
+                "Winners focus on winning. Losers focus on winners.",
+                "A champion is afraid of losing. Everyone else is afraid of winning.",
+                "Sports do not build character. They reveal it.",
+                "When you feel like quitting, remember why you started.",
+                "Excellence is not a skill. It is an attitude.",
+                "Discipline will take you places motivation can’t.",
+                "Pressure is a privilege – it only comes to those who earn it.",
+                "Be stronger than your strongest excuse.",
+                "You miss 100% of the shots you don’t take.",
+                "Great athletes don’t wait for opportunity. They create it.",
+                "If you want to be the best, you have to do things others aren’t willing to do."
+            ];
+
+            const currentHour = new Date().getHours();
+            let greeting, icon;
+            if (currentHour < 12) {
+                greeting = "Good Morning!";
+                icon = '☀️'; // Sun icon
+            } else if (currentHour < 18) {
+                greeting = "Good Afternoon!";
+                icon = '🌤️'; // Sun behind cloud
+            } else {
+                greeting = "Good Evening!";
+                icon = '🌙'; // Moon icon
+            }
+
+            // 2. Populate and Show Modal
+            // NEW: Use innerHTML to include the icon
+            greetingText.innerHTML = `${icon} ${greeting}`;
+            quoteText.textContent = `"${quotes[Math.floor(Math.random() * quotes.length)]}"`;
+            
+            // Add 'loaded' class to trigger all animations
+            setTimeout(() => {
+                greetingModalContent.classList.add('loaded');
+            }, 100); // Small delay to ensure transition triggers
+
+            // 3. Handle Closing the Modal
+            closeGreetingButton.addEventListener('click', () => {
+                greetingModal.style.opacity = '0';
+                setTimeout(() => greetingModal.style.display = 'none', 300); // Hide after fade out
+            });
+            // --- End of Greeting Modal Logic ---
+
+            // --- NEW: Floating WhatsApp Button Logic ---
+            const fab = document.getElementById('whatsapp-fab');
+            const tooltip = document.getElementById('whatsapp-tooltip');
+
+            // Show the FAB after a delay
+            setTimeout(() => {
+                fab.classList.add('fab-loaded');
+            }, 500);
+
+            // Show the tooltip after another delay
+            setTimeout(() => {
+                tooltip.style.opacity = '1';
+                tooltip.style.transform = 'scale(1)';
+            }, 2500); // 2.5-second delay before showing the tip
+
+            // --- NEW: Parallax Hero Background ---
+            const heroBg = document.getElementById('hero-bg');
+            window.addEventListener('scroll', () => {
+                heroBg.style.transform = `translateY(${window.scrollY * 0.4}px)`;
+            });
+
+            // 1. Initial Hero Section Animation (Fade In)
+            const heroOverlay = document.querySelector('.hero-overlay');
+            heroOverlay.classList.add('loaded');
+
+            // 2. Setup Scroll Animations
+            handleScrollAnimations(); // Run once on load to catch elements already in view
+            window.addEventListener('scroll', handleScrollAnimations);
+            window.addEventListener('resize', handleScrollAnimations);
+
+            // 3. Mobile Menu Toggle
+            const mobileMenuButton = document.getElementById('mobile-menu-button');
+            const mobileMenu = document.getElementById('mobile-menu');
+            const mobileMenuLinks = mobileMenu.querySelectorAll('a');
+
+            mobileMenuButton.addEventListener('click', () => {
+                mobileMenu.classList.toggle('hidden');
+            });
+
+            // Close mobile menu when a link is clicked
+            mobileMenuLinks.forEach(link => {
+                link.addEventListener('click', () => {
+                    mobileMenu.classList.add('hidden');
+                });
+            });
+
+            // 5. Smooth scrolling for all internal links
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    document.querySelector(this.getAttribute('href')).scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                });
+            });
+
+            // 6. Achievement Modal Logic
+            const modal = document.getElementById('achievement-modal');
+            const modalContent = document.getElementById('modal-content');
+            const closeModalButton = document.getElementById('modal-close-button');
+            const achievementCards = document.querySelectorAll('.achievement-card');
+
+            const modalImage = document.getElementById('modal-image');
+            const modalTitle = document.getElementById('modal-title');
+            const modalDescription = document.getElementById('modal-description');
+            const modalDate = document.getElementById('modal-date');
+
+            function openModal(card) {
+                // Populate modal with data from the card
+                modalImage.src = card.dataset.image;
+                modalTitle.textContent = card.dataset.title;
+                modalDescription.textContent = card.dataset.description;
+                modalDate.textContent = card.dataset.date;
+
+                // Show the modal
+                modal.classList.remove('hidden');
+                modal.classList.add('flex'); // Use flex for centering
+            }
+
+            function closeModal() {
+                modal.classList.add('hidden');
+                modal.classList.remove('flex');
+            }
+
+            achievementCards.forEach(card => {
+                card.addEventListener('click', () => {
+                    openModal(card);
+                });
+            });
+
+            closeModalButton.addEventListener('click', closeModal);
+
+            // Close modal if user clicks on the background overlay
+            modal.addEventListener('click', (event) => {
+                if (event.target === modal) {
+                    closeModal();
+                }
+            });
+
+            // 7. NEW: Video Modal Logic
+            const videoModal = document.getElementById('video-modal');
+            const videoPlayer = document.getElementById('modal-video-player');
+            const closeVideoModalButton = document.getElementById('video-modal-close');
+            const videoCards = document.querySelectorAll('.video-card');
+
+            function openVideoModal(videoSrc) {
+                videoPlayer.src = videoSrc;
+                videoModal.classList.remove('hidden');
+                videoModal.classList.add('flex');
+            }
+
+            function closeVideoModal() {
+                videoPlayer.pause();
+                videoPlayer.src = ""; // Clear src to stop background loading
+                videoModal.classList.add('hidden');
+                videoModal.classList.remove('flex');
+            }
+
+            videoCards.forEach(card => {
+                card.addEventListener('click', () => {
+                    const videoSrc = card.querySelector('video').src;
+                    openVideoModal(videoSrc);
+                });
+            });
+
+            closeVideoModalButton.addEventListener('click', closeVideoModal);
+            videoModal.addEventListener('click', (event) => {
+                if (event.target === videoModal) closeVideoModal();
+            });
+
+            // 8. NEW: Image Lightbox Logic
+            const lightbox = document.getElementById('image-lightbox');
+            const lightboxImage = document.getElementById('lightbox-image');
+            const lightboxCounter = document.getElementById('lightbox-counter');
+            const closeLightboxButton = document.getElementById('lightbox-close');
+            const prevButton = document.getElementById('lightbox-prev');
+            const nextButton = document.getElementById('lightbox-next');
+            
+            const imageCards = document.querySelectorAll('.image-card');
+            const galleryImages = Array.from(imageCards).map(card => card.querySelector('img').src);
+            let currentIndex = 0;
+
+            function showImage(index) {
+                lightboxImage.style.opacity = '0';
+                lightboxImage.style.transform = 'scale(0.95)';
+                setTimeout(() => {
+                    lightboxImage.src = galleryImages[index];
+                    lightboxImage.style.opacity = '1';
+                    lightboxImage.style.transform = 'scale(1)';
+                    lightboxCounter.textContent = `${index + 1} / ${galleryImages.length}`;
+                    currentIndex = index;
+                }, 150); // Wait for fade out before changing src
+            }
+
+            function openLightbox(index) {
+                lightbox.classList.remove('hidden');
+                lightbox.classList.add('flex', 'visible');
+                showImage(index);
+            }
+
+            function closeLightbox() {
+                lightbox.classList.add('hidden');
+                lightbox.classList.remove('flex', 'visible');
+            }
+
+            imageCards.forEach((card, index) => {
+                card.addEventListener('click', () => openLightbox(index));
+            });
+
+            closeLightboxButton.addEventListener('click', closeLightbox);
+            prevButton.addEventListener('click', () => showImage((currentIndex - 1 + galleryImages.length) % galleryImages.length));
+            nextButton.addEventListener('click', () => showImage((currentIndex + 1) % galleryImages.length));
+            lightbox.addEventListener('click', (e) => {
+                if (e.target === lightbox) closeLightbox();
+            });
+
+            // Keyboard navigation
+            document.addEventListener('keydown', (e) => {
+                if (!lightbox.classList.contains('hidden')) {
+                    if (e.key === 'ArrowRight') nextButton.click();
+                    if (e.key === 'ArrowLeft') prevButton.click();
+                    if (e.key === 'Escape') closeLightbox();
+                }
+            });
+
+            // 9. Contact Form Mailto Logic
+            const contactForm = document.getElementById('contact-form');
+            const submitButton = document.getElementById('submit-contact-form');
+
+            submitButton.addEventListener('click', (e) => {
+                e.preventDefault(); // Prevent default form submission
+
+                // Get form fields
+                const name = document.getElementById('name').value.trim();
+                const email = document.getElementById('email').value.trim();
+                const message = document.getElementById('message').value.trim();
+
+                // Basic validation
+                if (!name || !email || !message) {
+                    alert('Please fill out all fields before sending.');
+                    return;
+                }
+
+                const recipientEmail = 'suryaakashpokala64@gmail.com';
+                const subject = `Contact Form Inquiry from ${name}`;
+                const body = `Name: ${name}\nEmail: ${email}\n\nMessage:\n${message}`;
+
+                // Construct and open the mailto link
+                const mailtoLink = `mailto:${recipientEmail}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+                window.location.href = mailtoLink;
+            });
+        });
+    </script>
+</body>
+</html>
